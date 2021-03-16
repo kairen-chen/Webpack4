@@ -3,13 +3,15 @@ const
     MiniCssExtractPlugin = require("mini-css-extract-plugin"),
     { CleanWebpackPlugin } = require("clean-webpack-plugin"),
     CopyPlugin = require("copy-webpack-plugin");
-console.log("####",__dirname+"\dist")
+    HtmlWebpackPlugin = require('html-webpack-plugin');
+var src = path.join(__dirname, 'src');
+
 module.exports = {
     entry: {
-        bundle: "./src/index.js"
+        bundle: ["./src/index.js"]
     },
     output: {
-        filename: "[name].js",
+        filename: "[name].js?[hash:8]",
         path: path.join(__dirname, "dist"),
         publicPath: "/dist"
     },
@@ -50,10 +52,8 @@ module.exports = {
                 }
             },
             {
-                test: /\.(.html)$/i,
-                use: {
-                    loader: "file-loader"
-                }
+                test: /\.pug$/,
+                loader: ['raw-loader', 'pug-html-loader']
             }
         ]
     },
@@ -66,13 +66,22 @@ module.exports = {
         }),
         new CopyPlugin({
             patterns: [
-                { from: "./src/assets", to: "assets", force:true}
+                { from: "./src/assets", to: "assets", force:true},
+                { from: "./src/page", to:"page"}
             ]
         }),
-        new CopyPlugin({
-            patterns: [
-                { from: "./src/*.html"}
-            ]
+        new HtmlWebpackPlugin({
+            // template: './src/index.pug',
+            template: path.join(src, 'index.pug'),
+            filename: 'index.html',
+            inject: false,
+            minify: {
+                sortAttributes: true,
+                collapseWhitespace: true,
+                collapseBooleanAttributes: true, 
+                removeComments: true,
+                removeAttributeQuotes: true 
+              }
         })
     ]
 }

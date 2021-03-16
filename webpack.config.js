@@ -6,7 +6,7 @@ const
 module.exports = merge(common, {
     devtool: "inline-source-map",
     devServer: {
-        contentBase: path.join(__dirname, "./src"),
+        // contentBase: path.join(__dirname, "dist"),
         hot: true,
         open: true,
         watchContentBase: true,
