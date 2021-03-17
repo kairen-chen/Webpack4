@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack --config webpack.prod.js"
+    "start": "cross-env NODE_ENV=開發版 webpack-dev-server --mode development",
+    "build": "cross-env webpack --config webpack.prod.js --mode production"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +28,8 @@
   },
   "dependencies": {
     "bootstrap": "^4.5.0",
+    "cross-env": "^7.0.3",
+    "glob": "^7.1.6",
     "html-webpack-plugin": "4.0.0-alpha",
     "pug-html-loader": "^1.1.5",
     "raw-loader": "^4.0.2"
