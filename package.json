@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=開發版 webpack-dev-server --mode development",
+    "dev": "cross-env NODE_ENV=開發版 webpack-dev-server --mode development",
     "build": "cross-env webpack --config webpack.prod.js --mode production"
   },
   "author": "",
@@ -20,13 +20,16 @@
     "file-loader": "^6.0.0",
     "html-loader": "^2.1.2",
     "mini-css-extract-plugin": "^0.9.0",
-    "sass-loader": "^9.0.2",
+    "postcss": "^8.2.8",
+    "postcss-loader": "^4.2.0",
+    "sass-loader": "^10.1.1",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.0.9"
   },
   "dependencies": {
+    "autoprefixer": "^10.2.5",
     "bootstrap": "^4.5.0",
     "cross-env": "^7.0.3",
     "glob": "^7.1.6",

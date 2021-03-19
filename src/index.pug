@@ -8,24 +8,20 @@
     <link rel="stylesheet" href="./bundle.css">
 </head>
 <body>
-    h1 build by PUG123
-    <header class="header header--fixed header--transparent"> 
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="header__brand">
-                <h1><a href="index.html">Digital Agency</a></h1>
-            </div>
-            <div class="header__nav">
-                <ul class="d-flex justify-content-between">
-                    <li><a href="index.html" class="active">Home</a></li>
-                    <li><a href="./page/about.html">About</a></li>
-                </ul>
-            </div>
-        </div>
-    </header>
+    header(class="header header--fixed header--transparent")
+        div(class="container d-flex justify-content-between align-items-center")
+            h1 build by PUG
+            div(class="header__nav")
+                ul(class="d-flex justify-content-between")
+                    li 
+                        a(href="index.html" class="active") Home
+                    li
+                        a(href="./page/about.html") About
 
     section(class="intro")
         div(class="intro__overlay")
         div(class="intro__body")
+            a(href="https://neighborhood999.github.io/webpack-tutorial-gitbook/Part1/") readme
             h1 Digital Agency
             p
                 | Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut temporibus illo veniam voluptatibus? Quam molestias deleniti non reprehenderit debitis beatae, animi magnam nam adipisci nulla facere iure totam? Aut, perferendis.

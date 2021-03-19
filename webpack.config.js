@@ -8,10 +8,10 @@ module.exports = merge(common, {
     devtool: "inline-source-map",
     devServer: {
         // contentBase: path.join(__dirname, "dist"),
+        // watchContentBase: true,
         openPage: 'dist',
         open:true,
-        hot: true,
-        watchContentBase: true,
+        // hot: true,
         port: 3003,
         overlay: {
             warnings: true,

@@ -1,13 +1,13 @@
 const 
-    fs = require('fs'), 
+    glob = require('glob'),
     path = require("path"),
     CopyPlugin = require("copy-webpack-plugin"),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
-    MiniCssExtractPlugin = require("mini-css-extract-plugin"),
     { CleanWebpackPlugin } = require("clean-webpack-plugin"),
-    glob = require('glob');
+    MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-function generateHtmlPlugins(templateDir) {
+//handle .pug
+function generateHtmlPlugins() {
     return glob.sync('./src/**/*.pug').map((sourceItem) => {
         console.log('sourceItem: ', sourceItem)
         let 
@@ -16,24 +16,24 @@ function generateHtmlPlugins(templateDir) {
             pathCombi = "";
 
             pathSeparate.map((item,index) => {
-                if(index !== pathSeparate.length-1 && index !== 0 && index !== 1){
-                    pathCombi += "/"+item
+                if(index !== pathSeparate.length-1 && index > 1){
+                    pathCombi += "/" + item
                 }
             })
             console.log("result: ",pathCombi,fileName)
             
-            return new HtmlWebpackPlugin({
-                template: path.join("./", pathCombi, fileName),
-                filename: path.join("./", pathCombi, fileName.split(".")[0] + ".html"),
-                inject: false,
-                minify: {
-                    sortAttributes: true,
-                    collapseWhitespace: true,
-                    collapseBooleanAttributes: true, 
-                    removeComments: true,
-                    removeAttributeQuotes: true 
-                  }
-            })
+        return new HtmlWebpackPlugin({
+            template: path.join("./", pathCombi, fileName),
+            filename: path.join("./", pathCombi, fileName.split(".")[0] + ".html"),
+            inject: false,
+            minify: {
+                sortAttributes: true,
+                collapseWhitespace: true,
+                collapseBooleanAttributes: true, 
+                removeComments: true,
+                removeAttributeQuotes: true 
+            } 
+        })
     });
 }
 
@@ -44,8 +44,7 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, "dist"),
-        filename: "[name].js",
-        publicPath: "/dist/"
+        filename: "[name].js"
     },
     module:{
         rules:[
@@ -59,6 +58,7 @@ module.exports = {
                             url: false
                         }
                     },
+                    "postcss-loader",
                     {
                         loader: "sass-loader",
                         options: {
@@ -89,6 +89,7 @@ module.exports = {
             }
         ]
     },
+    watch: true,
     plugins: [
         new CleanWebpackPlugin({
             dry: true
