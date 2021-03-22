@@ -7,11 +7,8 @@ const
 module.exports = merge(common, {
     devtool: "inline-source-map",
     devServer: {
-        // contentBase: path.join(__dirname, "dist"),
-        // watchContentBase: true,
-        openPage: 'dist',
+        openPage: 'incrte/',
         open:true,
-        // hot: true,
         port: 3003,
         overlay: {
             warnings: true,

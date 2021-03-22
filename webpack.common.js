@@ -6,6 +6,7 @@ const
     { CleanWebpackPlugin } = require("clean-webpack-plugin"),
     MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+console.log("環境變數 : ", process.env.NODE_ENV)
 //handle .pug
 function generateHtmlPlugins() {
     return glob.sync('./src/**/*.pug').map((sourceItem) => {
@@ -38,22 +39,39 @@ function generateHtmlPlugins() {
 }
 
 module.exports = {
+    // 要被打包的所有檔案root在哪?
     context: path.join(__dirname, "./src"),
     entry: {
         bundle: ["./index.js"]
     },
     output: {
-        path: path.join(__dirname, "dist"),
-        filename: "[name].js"
+        // path : 很單純,用來存放打包後檔案的輸出目錄,不設定亦可,default -> dist,
+        // path: path.join(__dirname, "incrte"),
+        filename: "[name].js",
+        // publicPath : devServer運作時會把檔案存在記憶體,指定原始檔引用的目錄(只對devServer運作時影響,build後一切正常!!)
+        // 這裡會和devServer的openPage有關聯!!
+        // ref -> https://codertw.com/%E5%89%8D%E7%AB%AF%E9%96%8B%E7%99%BC/201833/
+        publicPath: "/incrte"
     },
     module:{
         rules:[
             {
                 test: /\.scss$/,
                 use:[
+                    // !!注意!! loader的執行順序是由下而上
+                    // sass-loader -> postcss-loader -> css-loader
                     MiniCssExtractPlugin.loader,
                     {
                         loader: "css-loader",
+                        /* 
+                            csc內的圖片URL是否另外處理,
+                                false -> 根據目錄結構讀取
+                                true -> 會由webpack額外處理path,導致
+                                        無法處理開頭非斜線的url assets/images/agency_bg.jpg,如下錯誤訊息
+                                        ModuleNotFoundError: Module not found: Error: Can't resolve './assets/images/agency_bg.jpg' in 'D:\Github\Webpack4\src\scss'
+                                        看似會被當作module載入,但找無
+                            ref -> https://webpack.js.org/loaders/css-loader/#url
+                        */
                         options: {
                             url: false
                         }
@@ -89,11 +107,8 @@ module.exports = {
             }
         ]
     },
-    watch: true,
     plugins: [
-        new CleanWebpackPlugin({
-            dry: true
-        }),
+        new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: "[name].css"
         }),
@@ -102,5 +117,7 @@ module.exports = {
                 { from: "./assets", to: "assets", force:true},
             ]
         })
-    ].concat(generateHtmlPlugins())
+    ].concat(
+        generateHtmlPlugins(),
+    )
 }
